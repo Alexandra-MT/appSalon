@@ -1,0 +1,21 @@
+@use 'base/variables' as v;
+
+.alerta{
+    padding:calc(v.$separacion/4);
+    color:v.$blanco;
+    width:100%;
+    display:block;// una encima de la otra
+    margin-bottom: 2rem;
+    text-align: center;
+    font-weight:v.$bold;
+    //text-transform: uppercase;
+
+    //cuando el $key = error
+    &.error{
+        background-color: v.$rojo;
+    }
+    &.exito{
+        background-color: v.$verde;
+    }
+    
+}
