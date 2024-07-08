@@ -176,7 +176,7 @@ class LoginController{
                         }
                     }
 
-              }
+               }
     
         }
         $router->render('auth/crear-cuenta',[
@@ -189,6 +189,7 @@ class LoginController{
     public static function mensaje(Router $router){
         $router->render('auth/mensaje');
     }
+
     public static function confirmar(Router $router){
         $alertas=[];
         //hay que leer el token con get ya que lo pasamos por la URL
@@ -216,5 +217,4 @@ class LoginController{
             'alertas'=>$alertas
         ]);
     }
-
 }
