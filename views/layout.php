@@ -17,6 +17,10 @@
         </div>
     </div>
    
-            
+<?php
+//solo la necesitamos en este layout, para no marcar errores
+ echo $script ?? '';
+ 
+ ?>
 </body>
 </html>

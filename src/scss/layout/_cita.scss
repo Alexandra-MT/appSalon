@@ -1,0 +1,19 @@
+.seccion{
+    padding: 5rem 0;
+    display: none;
+    .text-center{
+        text-align: center;
+    }
+    //para que los oculte
+    //&:nth-child(3),
+    //&:nth-child(4){
+      //  display:none;
+    //}
+}
+
+.mostrar{
+    display:block;
+}
+.ocultar{
+    display:none;
+}

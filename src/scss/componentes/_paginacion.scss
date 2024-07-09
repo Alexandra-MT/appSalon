@@ -1,0 +1,20 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.paginacion{
+    padding: v.$separacion 0;
+
+    @include m.telefono{
+        display:flex;
+        justify-content: space-around;
+        gap:1rem;
+    }
+    button{
+        margin:0 0 1rem 0;
+    }
+}
+
+.ocultar{
+    //display:none; hace deparacer y siguiente pasa al lado izquierdo
+    visibility:hidden;
+}

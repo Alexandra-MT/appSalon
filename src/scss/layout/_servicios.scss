@@ -1,0 +1,34 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.listado-servicios{
+    display:grid;
+    gap:2rem;
+    text-align: center;
+    @include m.tablet{
+        @include m.grid(2, 2rem);
+
+    }
+    .servicio{
+        background-color: v.$blanco;
+        border-radius: 2rem;
+        transition-property: transform;//para buscar el transform de abajo
+        transition-duration: 300ms ;
+
+        &.seleccionado{
+            background-color:v.$azul;
+            p{
+                color:v.$blanco;
+            }
+        }
+        &:hover{
+            transform: scale(1.1);
+        }
+        p{
+            color:v.$azul;
+            font-size: 2.5rem;
+            font-weight: v.$bold;
+            margin:1rem 0;
+        }
+    }
+}
