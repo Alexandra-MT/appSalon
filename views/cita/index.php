@@ -23,15 +23,24 @@
             </div>
             <div class="campo">
                 <label for="fecha">Fecha</label>
-                <input type="date" id="fecha">
+                <input type="date" id="fecha" min="<?php  echo date('Y-m-d', strtotime('+1 day')); ?>">
             </div>
+
+            <?php  
+            
+            //echo date('y-m-d'); 24-07-11
+            //echo date('Y-M-D'); 2024-Jul-Thu 
+            //echo date('Y-M-l'); 2024-Jul-Thursday 
+            //echo date('H:i'); 12:14 
+            ?>
+
             <div class="campo">
                 <label for="hora">Hora</label>
                 <input type="time" id="hora">
             </div>
         </form>
     </div>
-    <div id="paso-3" class="seccion">
+    <div id="paso-3" class="seccion contenido-resumen">
         <h2>Resumen</h2>
         <p class="text-center">Verifica que la información sea correcta</p>
     </div>
