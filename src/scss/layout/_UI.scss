@@ -24,3 +24,28 @@
         padding:3rem 0;
     }
 }
+
+.barra{
+    margin:0;
+    @include m.tablet{
+        display:flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .boton{ 
+        margin:0;
+        @include m.boton(v.$rojo, v.$blanco);
+        transition:2s ease-in-out;
+    
+        &:hover{
+            @include m.boton(darken(v.$rojo,5%), v.$blanco);
+            transition: 2s ease-in-out; 
+        }
+    }
+    p{
+        color:lighten(v.$azul, 30%);
+        text-align: center;
+        margin:0;
+    }
+    
+}

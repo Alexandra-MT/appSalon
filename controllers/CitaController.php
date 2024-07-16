@@ -12,7 +12,8 @@ class CitaController{
         isAuth();
         //debuguear($_SESSION);
         $router->render('cita/index', [
-            'nombre'=>$_SESSION['nombre'],
+            'nombre' => $_SESSION['nombre'],
+            'id' => $_SESSION['id']
         ]);
     }
 }

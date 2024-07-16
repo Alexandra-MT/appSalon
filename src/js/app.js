@@ -4,6 +4,7 @@ const pasoFinal=3;
 
 //crear el objeto de la cita
 const cita = {
+    id: '',
     nombre:'',
     fecha:'',
     hora:'',
@@ -23,6 +24,9 @@ function iniciarApp(){
 
     //API
     consultarAPI();//consulta la api en el backend de php
+
+    //idcliente
+    idCliente();
 
     //nombre cliente
     nombreCliente();
@@ -102,7 +106,7 @@ function paginaSiguiente(){
     paginaSiguiente.addEventListener('click', function(){
         if(paso >= pasoFinal) return;
         paso++;
-        console.log(paso);
+        //console.log(paso);
 
         botonesPaginador();
     });
@@ -115,7 +119,7 @@ function paginaAnterior(){
         //si paso es menor o igual al pasoInicial return; deja de restar
         if(paso <= pasoInicial) return;
         paso--; 
-        console.log(paso);
+        //console.log(paso);
 
         //para que desaparezca cuando paso=1;
         botonesPaginador();
@@ -126,7 +130,7 @@ function paginaAnterior(){
 //try catch previene a que la app deje de funcionar
 async function consultarAPI(){
     try{
-        const url = 'http://localhost:3000/api/servicios';
+        const url = 'http://127.0.0.1:3000/api/servicios';
         const resultado = await fetch(url);//espera hasta que descargue todo
         //console.log(resultado); //json() toma un json como entrada y devuelve objeto js
         const servicios = await resultado.json();// funcion json en prototype
@@ -199,6 +203,10 @@ function seleccionarServicio(servicio){
     }
 }
 
+function idCliente(){
+    cita.id = document.querySelector('#id').value; //el valor que le pasamos desde la sesión 
+}
+
 function nombreCliente(){
     cita.nombre = document.querySelector('#nombre').value; //el valor que le pasamos desde la sesión 
 }
@@ -217,7 +225,7 @@ function nombreCliente(){
             
         }
         //cita.fecha = inputFecha.value;
-        console.log(dia);
+        
     });
  }
 
@@ -232,7 +240,7 @@ function nombreCliente(){
            
         }else{
             cita.hora = e.target.value;
-            console.log(cita);
+            //console.log(cita);
         }
     });
 }
@@ -267,11 +275,139 @@ function nombreCliente(){
 function mostrarResumen(){
     const resumen = document.querySelector('.contenido-resumen');
 
+    //resumen.innerHTML = '';
+    //limpiar el contenido de resumen
+    while(resumen.firstChild){
+        resumen.removeChild(resumen.firstChild);
+    }
+
     //console.log(Object.values(cita));
     //console.log(cita.servicios.length);
     if(Object.values(cita).includes('') || cita.servicios.length === 0){
         mostrarAlerta('Faltan datos de Servicios, Fecha u Hora', 'error', '.contenido-resumen', false);
-    }else{
-        console.log('todo bien');
+        return;
     }
+
+        //formatear al div de resumen
+        const { nombre, fecha , hora, servicios } = cita;
+
+        //heading servicios
+        const headingServicios = document.createElement('H3');
+        headingServicios.textContent = 'Resumen de Servicios';
+        resumen.appendChild(headingServicios);
+
+        //interramos los servicios
+        servicios.forEach(servicio =>{
+
+            const {id, nombre, precio} = servicio;
+
+            const contenedorServicio = document.createElement('DIV');
+            contenedorServicio.classList.add('contenedor-servicio');
+
+            const textoServicio = document.createElement('P');
+            textoServicio.textContent = nombre;
+
+            const precioServicio = document.createElement('P');
+            precioServicio.innerHTML = `<span>Precio:</span> € ${precio}`;
+
+            contenedorServicio.appendChild(textoServicio);
+            contenedorServicio.appendChild(precioServicio);
+
+            resumen.appendChild(contenedorServicio);
+        })
+
+        //heading datos cliente
+        const datosCliente = document.createElement('H3');
+        datosCliente.textContent = 'Datos Cliente';
+        resumen.appendChild(datosCliente);
+
+        //formatear la fecha en español
+        const fechaObj = new Date(fecha);
+        const mes = fechaObj.getMonth();
+        const dia = fechaObj.getDate();
+        const anio = fechaObj.getFullYear();
+
+        const fechaUTC = new Date(Date.UTC(anio, mes, dia));
+        const opciones = { weekday: 'long', year:'numeric', month:'long', day:'numeric'};
+        const fechaFormateada = fechaUTC.toLocaleDateString('es-ES', opciones);
+        fechaDef = capitalizarPrimeraLetra(fechaFormateada);
+
+        const nombreCliente = document.createElement('P');
+        nombreCliente.innerHTML = `<span>Nombre:</span> ${nombre}`;
+ 
+        const fechaCita = document.createElement('P');
+        fechaCita.innerHTML = `<span>Fecha:</span> ${fechaDef}`;
+ 
+        const horaCita = document.createElement('P');
+        horaCita.innerHTML = `<span>Hora:</span> ${hora} Horas`;
+
+        //boton para crear una cita
+        const botonReservar = document.createElement('BUTTON');
+        botonReservar.classList.add('boton');
+        botonReservar.textContent = 'Reservar cita';
+        botonReservar.onclick = reservarCita;
+ 
+        resumen.appendChild(nombreCliente);
+        resumen.appendChild(fechaCita);
+        resumen.appendChild(horaCita);
+
+        resumen.appendChild(botonReservar);
 }
+
+function capitalizarPrimeraLetra(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+ async function reservarCita(){
+
+    //extraer el objeto de cita
+    const { fecha, hora, servicios, id } = cita;
+    
+    //for each solamente iterra, map va colocando en la variable las coincidencias
+    const idServicios = servicios.map( servicio => servicio.id ); //iterra sobre cada servicio, identifico el campo id y lo devuelve a la variable idServicios
+   
+    //creamos el objeto
+    const datos = new FormData();
+
+    //agregamos datos con append, // 'nombre', 'fecha', 'hora' nos ayuda a acceder al valor en post
+    datos.append('fecha', fecha);
+    datos.append('hora', hora);
+    datos.append('usuarioId', id);
+    datos.append('servicios', idServicios);
+
+    //en caso de error critico en el servidor
+    try {
+        //peticion hacia la api
+        const url = 'http://127.0.0.1:3000/api/citas';
+
+        const respuesta = await fetch(url, { //el segundo parametro es opcional, es bueno declararlo en peticiones tipo post
+            method: 'POST',
+            body: datos //hay que hacer ek FormDate parte de fetch, en el cuerpo de la petición
+        });
+        const resultado = await respuesta.json();
+        //console.log(resultado.resultado); //.resultado es de la funcion crear() de Active Record
+        //console.log([...datos]);//para poder ver su contenido
+
+        if(resultado.resultado){
+            Swal.fire({
+                icon: "success",
+                title: "Cita Creada",
+                text: "Tu cita fue creada correctamente",
+            }).then( () => {
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000); 
+            });
+        }
+    } catch (error) {
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Hubo un error al guardar la cita",
+            footer: "Por favor intentelo más tarde, disculpe la molestia"
+          });
+    }
+
+    
+}
+  
