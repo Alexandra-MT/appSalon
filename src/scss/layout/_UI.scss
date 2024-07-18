@@ -49,6 +49,15 @@
         color:lighten(v.$azul, 30%);
         text-align: center;
         margin:0;
+    }  
+}
+
+.barra-servicios{
+    @include m.tablet{
+        display:flex;
+        justify-content: space-between;
     }
-    
+    .boton{
+        margin: 1rem 0;
+    }
 }

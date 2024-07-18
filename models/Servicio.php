@@ -19,4 +19,17 @@ class Servicio extends ActiveRecord{
         $this->precio = $args['precio'] ?? '';
     }
 
+    public function validar(){
+        if(!$this->nombre){
+            self::setAlerta('error', 'El Nombre del Servicio es Obligatorio');
+        }
+        if(!$this->precio){
+            self::setAlerta('error', 'El Precio del Servicio es Obligatorio');
+        }
+        if(!is_numeric($this->precio)){
+            self::setAlerta('error', 'No es un formato válido');
+        }
+        return self::getAlertas();
+    }
+
 }
