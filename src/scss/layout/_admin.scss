@@ -1,0 +1,37 @@
+@use 'base/variables' as v;
+
+.busqueda{
+    margin-bottom: 5rem;
+}
+
+.alerta{
+    margin-top: 10rem;
+}
+
+.citas{
+    list-style: none;
+    padding: 0;
+    li{
+        padding: 1rem;
+        border-top: 1px solid v.$blanco;
+        
+        p{
+            font-weight: v.$bold;
+            color:lighten(v.$azul, 30%);
+        }
+        span,
+        .servicios{
+            font-weight: v.$regular;
+            color:v.$blanco;
+ 
+        }
+        &:hover{
+            background-color: darken(v.$azul, 25%);
+        }
+
+        h3{
+            padding: 3rem 0;
+            margin:0;
+        }
+    }
+}

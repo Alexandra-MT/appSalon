@@ -234,6 +234,9 @@ function nombreCliente(){
     inputHora.addEventListener('input', function(e){
         const horaCita = e.target.value;
         const hora = horaCita.split(":")[0];//separa un string con el separador especificado, y devolvemos el valor de la posicion 0 del array
+        
+        //const horaActual = new Date().getHours();
+        
         if(hora < 10 || hora > 18){
             e.target.value ='';
             mostrarAlerta('Hora No Válida', 'error', '.formulario');

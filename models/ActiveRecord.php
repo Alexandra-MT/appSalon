@@ -127,8 +127,16 @@ class ActiveRecord {
     public static function where($columna, $valor) {
         $query = "SELECT * FROM " . static::$tabla  ." WHERE {$columna} = '{$valor}'";//ojo valor es un string se necesita comillas
         $resultado = self::consultarSQL($query);//array de objetos
-        return array_shift( $resultado ) ;//un objeto
+        return array_shift( $resultado ) ;//un objeto array_shift elimina el 0 en lugar de acceder $propiedad[0]->imagen accedemos $propiedad->imagen
     }
+
+    //consulta plana de SQL ( utilizar cuando los metodos del modelo no son suficientes);
+    public static function SQL($query) {
+        //$query = $consulta;
+        $resultado = self::consultarSQL($query);//array de objetos
+        return $resultado;
+    }
+
     // crea un nuevo registro
     public function crear() {
         // Sanitizar los datos

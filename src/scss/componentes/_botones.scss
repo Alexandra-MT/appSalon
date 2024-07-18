@@ -7,3 +7,7 @@
     margin:2rem auto;
     border-radius: 1rem;
 }
+
+.boton-eliminar{
+    @include m.boton(v.$rojo, v.$blanco);
+}

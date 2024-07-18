@@ -1,5 +1,5 @@
 <?php
-
+//IMPORTANTE COMO ES API NO REQUIERE ROUTER $ROUTER, SEPARA EL BACK DEL FRONT, TIENE RESPUESTA JSON
 namespace Controllers;
 
 use Model\Cita;
@@ -7,6 +7,7 @@ use Model\CitaServicio;
 use Model\Servicio;
 
 class APIController{
+
     public static function index(){
         //traemos todos los servicios
         $servicios=Servicio::all();//arreglo asociativo
@@ -40,5 +41,21 @@ class APIController{
         //retornamos una respuesta
         echo json_encode(['resultado' => $resultado]);
     } 
-}
 
+    public static function eliminar(){
+
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+        
+            //traemos el id con post
+            $idCita = $_POST['id'];
+            //buscamos la cita por id
+            $cita = Cita::find($idCita);
+            //la eliminamos
+            $cita->eliminar();
+
+            //debuguear($_SERVER);
+            header('Location:'. $_SERVER['HTTP_REFERER']); //nos redirige a la página anterior
+        }
+    }
+
+}
