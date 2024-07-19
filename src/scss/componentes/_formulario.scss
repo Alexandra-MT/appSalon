@@ -10,7 +10,13 @@
 }
 
 .campo{
-    display:flex;
+    display:grid;
+    
+    //display:inline-block;
+    @include m.tablet{
+        display:flex;
+    }
+   
     margin-bottom:2rem;
     align-items: center;
     font-size:2.5rem;
