@@ -10,4 +10,5 @@
 
 .boton-eliminar{
     @include m.boton(v.$rojo, v.$blanco);
+    border-radius: 1rem;
 }

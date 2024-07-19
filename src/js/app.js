@@ -130,7 +130,7 @@ function paginaAnterior(){
 //try catch previene a que la app deje de funcionar
 async function consultarAPI(){
     try{
-        const url = 'http://127.0.0.1:3000/api/servicios';
+        const url = `${location.origin}/api/servicios`;
         const resultado = await fetch(url);//espera hasta que descargue todo
         //console.log(resultado); //json() toma un json como entrada y devuelve objeto js
         const servicios = await resultado.json();// funcion json en prototype
@@ -381,7 +381,7 @@ function capitalizarPrimeraLetra(str) {
     //en caso de error critico en el servidor
     try {
         //peticion hacia la api
-        const url = 'http://127.0.0.1:3000/api/citas';
+        const url = '/api/citas';
 
         const respuesta = await fetch(url, { //el segundo parametro es opcional, es bueno declararlo en peticiones tipo post
             method: 'POST',

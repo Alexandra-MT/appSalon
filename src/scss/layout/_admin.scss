@@ -10,7 +10,6 @@
     li{
         padding: 1rem;
         border-top: 1px solid v.$blanco;
-        
         p{
             font-weight: v.$bold;
             color:lighten(v.$azul, 30%);
@@ -27,6 +26,16 @@
 
         h3{
             padding: 3rem 0;
+            margin:0;
+        }
+    }
+}
+
+.servicios{
+    @extend .citas;
+    .acciones{
+        margin:0;
+        a{
             margin:0;
         }
     }
